@@ -19,7 +19,7 @@ CREATE TABLE Cliente(
 	direccion VARCHAR(255),
 	email VARCHAR(100),
 	telefono VARCHAR(20),
-    password VARCHAR(100),
+	password VARCHAR(100),
 	latitud DOUBLE PRECISION,
 	longitud DOUBLE PRECISION,
 	location GEOMETRY(Point, 4326);
@@ -57,6 +57,28 @@ CREATE TABLE Detalle_Orden(
 	PRIMARY KEY (id_detalle),
 	FOREIGN KEY (id_orden) REFERENCES Orden(id_orden),
 	FOREIGN KEY (id_producto) REFERENCES Producto(id_producto)
+);
+
+CREATE TABLE Almacen (
+    id_almacen SERIAL NOT NULL,
+    nombre VARCHAR(255) NOT NULL,
+    direccion VARCHAR(255) NOT NULL,
+    latitud DOUBLE,
+    longitud DOUBLE,
+    location VARCHAR(255) ,
+    PRIMARY KEY (id_almacen)
+);
+
+CREATE TABLE AlmacenProducto (
+    id_almacen_producto SERIAL NOT NULL,
+    id_almacen INT,
+    id_producto INT,
+    cantidad INT NOT NULL,
+    fechaEntrada DATE,
+    fechaSalida DATE,
+    PRIMARY KEY (id_almacen_producto),
+    FOREIGN KEY (id_almacen) REFERENCES Almacen(id_almacen),
+    FOREIGN KEY (id_producto) REFERENCES Producto(id_producto)
 );
 
 CREATE TABLE log_auditoria (
