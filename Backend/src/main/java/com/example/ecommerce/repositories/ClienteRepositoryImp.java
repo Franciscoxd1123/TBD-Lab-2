@@ -14,9 +14,9 @@ public class ClienteRepositoryImp implements ClienteRepository{
     private Sql2o sql2o;
 
     @Override
-    public Cliente create(Cliente cliente){
-        String sql = "INSERT INTO Cliente (nombre, direccion, email, telefono, password) " +
-                "VALUES (:nombre, :direccion, :email, :telefono, :password) " +
+    public Cliente create(Cliente cliente) {
+        String sql = "INSERT INTO Cliente (nombre, direccion, email, telefono, password, latitud, longitud, location) " +
+                "VALUES (:nombre, :direccion, :email, :telefono, :password, :latitud, :longitud, :location) " +
                 "RETURNING id_cliente";
         try (Connection con = sql2o.open()) {
             Integer id = con.createQuery(sql, true)
@@ -25,13 +25,15 @@ public class ClienteRepositoryImp implements ClienteRepository{
                     .addParameter("email", cliente.getEmail())
                     .addParameter("telefono", cliente.getTelefono())
                     .addParameter("password", cliente.getPassword())
+                    .addParameter("latitud", cliente.getLatitud())
+                    .addParameter("longitud", cliente.getLongitud())
+                    .addParameter("location", cliente.getLocation())
                     .executeUpdate()
                     .getKey(Integer.class);
 
             cliente.setIdCliente(Long.valueOf(id));
             return cliente;
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             System.out.println("Error al crear el cliente: " + e.getMessage());
             return null;
         }
@@ -39,46 +41,52 @@ public class ClienteRepositoryImp implements ClienteRepository{
 
     @Override
     public List<Cliente> getAll() {
-        String sql = "SELECT id_cliente AS idCliente, nombre, direccion, email, telefono, password FROM Cliente";
+        String sql = "SELECT id_cliente AS idCliente, nombre, direccion, email, telefono, password, latitud, longitud, location " +
+                "FROM Cliente";
 
         try (Connection con = sql2o.open()) {
             return con.createQuery(sql).executeAndFetch(Cliente.class);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             System.out.println("Error al consultar los clientes: " + e.getMessage());
             return null;
         }
     }
 
     @Override
-    public Cliente getClienteId(int id){
-        String sql = "SELECT id_cliente AS idCliente, nombre, direccion, email, telefono, password FROM Cliente WHERE id_cliente = :id";
+    public Cliente getClienteId(int id) {
+        String sql = "SELECT id_cliente AS idCliente, nombre, direccion, email, telefono, password, latitud, longitud, location " +
+                "FROM Cliente WHERE id_cliente = :id";
 
         try (Connection con = sql2o.open()) {
-            return con.createQuery(sql).addParameter("id",id).executeAndFetchFirst(Cliente.class);
-        }
-        catch (Exception e) {
+            return con.createQuery(sql)
+                    .addParameter("id", id)
+                    .executeAndFetchFirst(Cliente.class);
+        } catch (Exception e) {
             System.out.println("Error al consultar el cliente: " + e.getMessage());
             return null;
         }
     }
 
     @Override
-    public Cliente update(Cliente cliente, int id){
-        String sql = "UPDATE Cliente SET Nombre = :Nombre, Direccion = :Direccion, Email = :Email, Telefono = :Telefono, Password = :Password  WHERE id_cliente = :id";
+    public Cliente update(Cliente cliente, int id) {
+        String sql = "UPDATE Cliente SET nombre = :nombre, direccion = :direccion, email = :email, telefono = :telefono, " +
+                "password = :password, latitud = :latitud, longitud = :longitud, location = :location " +
+                "WHERE id_cliente = :id";
 
         try (Connection con = sql2o.open()) {
             con.createQuery(sql)
                     .addParameter("id", id)
-                    .addParameter("Nombre", cliente.getNombre())
-                    .addParameter("Direccion", cliente.getDireccion())
-                    .addParameter("Email", cliente.getEmail())
-                    .addParameter("Telefono", cliente.getTelefono())
-                    .addParameter("Password", cliente.getPassword())
+                    .addParameter("nombre", cliente.getNombre())
+                    .addParameter("direccion", cliente.getDireccion())
+                    .addParameter("email", cliente.getEmail())
+                    .addParameter("telefono", cliente.getTelefono())
+                    .addParameter("password", cliente.getPassword())
+                    .addParameter("latitud", cliente.getLatitud())
+                    .addParameter("longitud", cliente.getLongitud())
+                    .addParameter("location", cliente.getLocation())
                     .executeUpdate();
             return cliente;
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             System.out.println("Error al actualizar el cliente: " + e.getMessage());
             return null;
         }

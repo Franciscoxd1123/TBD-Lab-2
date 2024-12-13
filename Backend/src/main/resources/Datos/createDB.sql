@@ -20,6 +20,9 @@ CREATE TABLE Cliente(
 	email VARCHAR(100),
 	telefono VARCHAR(20),
     password VARCHAR(100),
+	latitud DOUBLE PRECISION,
+	longitud DOUBLE PRECISION,
+	location GEOMETRY(Point, 4326);
 	PRIMARY KEY (id_cliente)
 );
 

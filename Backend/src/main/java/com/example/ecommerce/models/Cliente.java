@@ -14,4 +14,7 @@ public class Cliente{
     private String telefono;
     @Getter @Setter
     private String password;
+    private Double latitud;
+    private Double longitud;
+    private String location;
 }
