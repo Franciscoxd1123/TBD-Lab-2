@@ -3,6 +3,7 @@ package com.example.ecommerce.models;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
+import org.locationtech.jts.geom.Point;
 
 @Data
 public class Cliente{
@@ -16,5 +17,5 @@ public class Cliente{
     private String password;
     private Double latitud;
     private Double longitud;
-    private String location;
+    private Point location;
 }

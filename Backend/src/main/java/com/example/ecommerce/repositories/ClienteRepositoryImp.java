@@ -16,7 +16,8 @@ public class ClienteRepositoryImp implements ClienteRepository{
     @Override
     public Cliente create(Cliente cliente) {
         String sql = "INSERT INTO Cliente (nombre, direccion, email, telefono, password, latitud, longitud, location) " +
-                "VALUES (:nombre, :direccion, :email, :telefono, :password, :latitud, :longitud, :location) " +
+                "VALUES (:nombre, :direccion, :email, :telefono, :password, :latitud, :longitud, " +
+                "ST_GeomFromText('POINT(' || :longitud || ' ' || :latitud || ')', 4326)) " +
                 "RETURNING id_cliente";
         try (Connection con = sql2o.open()) {
             Integer id = con.createQuery(sql, true)
@@ -27,7 +28,6 @@ public class ClienteRepositoryImp implements ClienteRepository{
                     .addParameter("password", cliente.getPassword())
                     .addParameter("latitud", cliente.getLatitud())
                     .addParameter("longitud", cliente.getLongitud())
-                    .addParameter("location", cliente.getLocation())
                     .executeUpdate()
                     .getKey(Integer.class);
 
