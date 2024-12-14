@@ -1,3 +1,7 @@
+SELECT * FROM almacen;
+
+SELECT * FROM almacen_producto;
+
 SELECT * FROM categoria;
 
 SELECT * FROM cliente;
@@ -18,3 +22,5 @@ VALUES ('Herramienta de jardinería', 'Herramienta para jardinear', 20.00, 1, 'D
 
 INSERT INTO Categoria (nombre) VALUES
 ('Jardinería');
+
+CALL reporte_usuarios_mas_activos();
