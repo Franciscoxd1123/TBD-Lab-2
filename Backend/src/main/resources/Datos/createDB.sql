@@ -1,11 +1,13 @@
 CREATE DATABASE Ecommerce;
 
+DROP TABLE IF EXISTS log_auditoria;
 DROP TABLE IF EXISTS Detalle_Orden;
+DROP TABLE IF EXISTS Almacen_Producto;
 DROP TABLE IF EXISTS Orden;
 DROP TABLE IF EXISTS Producto;
-DROP TABLE IF EXISTS Categoria;
+DROP TABLE IF EXISTS Almacen;
 DROP TABLE IF EXISTS Cliente;
-DROP TABLE IF EXISTS log_auditoria;
+DROP TABLE IF EXISTS Categoria;
 
 CREATE TABLE Categoria(
 	id_categoria SERIAL NOT NULL,
@@ -22,7 +24,7 @@ CREATE TABLE Cliente(
 	password VARCHAR(100),
 	latitud DOUBLE PRECISION,
 	longitud DOUBLE PRECISION,
-	location GEOMETRY(Point, 4326);
+	location GEOMETRY(Point, 4326),
 	PRIMARY KEY (id_cliente)
 );
 
@@ -63,13 +65,13 @@ CREATE TABLE Almacen (
     id_almacen SERIAL NOT NULL,
     nombre VARCHAR(255) NOT NULL,
     direccion VARCHAR(255) NOT NULL,
-    latitud DOUBLE,
-    longitud DOUBLE,
-    location VARCHAR(255) ,
+    latitud DOUBLE PRECISION,
+    longitud DOUBLE PRECISION,
+    location GEOMETRY(Point, 4326),
     PRIMARY KEY (id_almacen)
 );
 
-CREATE TABLE AlmacenProducto (
+CREATE TABLE Almacen_Producto (
     id_almacen_producto SERIAL NOT NULL,
     id_almacen INT,
     id_producto INT,
