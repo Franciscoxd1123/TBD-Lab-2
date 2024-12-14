@@ -4,6 +4,7 @@ import com.example.ecommerce.models.Almacen;
 import java.util.List;
 
 public interface AlmacenRepository {
+
     Almacen create(Almacen almacen);
 
     List<Almacen> getAll();

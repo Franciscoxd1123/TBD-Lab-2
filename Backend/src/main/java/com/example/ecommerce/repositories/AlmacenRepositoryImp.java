@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.sql2o.Connection;
 import org.sql2o.Sql2o;
-
 import java.util.List;
 
 @Repository
@@ -17,7 +16,8 @@ public class AlmacenRepositoryImp implements AlmacenRepository{
     @Override
     public Almacen create(Almacen almacen) {
         String sql = "INSERT INTO Almacen (nombre, direccion, latitud, longitud, location) " +
-                "VALUES (:nombre, :direccion, :latitud, :longitud, :location) " +
+                "VALUES (:nombre, :direccion, :latitud, :longitud, " +
+                "ST_GeomFromText('POINT(' || :longitud || ' ' || :latitud || ')', 4326)) " +
                 "RETURNING id_almacen";
 
         try (Connection con = sql2o.open()) {
@@ -26,7 +26,6 @@ public class AlmacenRepositoryImp implements AlmacenRepository{
                     .addParameter("direccion", almacen.getDireccion())
                     .addParameter("latitud", almacen.getLatitud())
                     .addParameter("longitud", almacen.getLongitud())
-                    .addParameter("location", almacen.getLocation())
                     .executeUpdate()
                     .getKey(Integer.class);
 
