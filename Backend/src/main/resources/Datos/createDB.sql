@@ -76,8 +76,8 @@ CREATE TABLE Almacen_Producto (
     id_almacen INT,
     id_producto INT,
     cantidad INT NOT NULL,
-    fechaEntrada DATE,
-    fechaSalida DATE,
+    fecha_entrada DATE,
+    fecha_salida DATE,
     PRIMARY KEY (id_almacen_producto),
     FOREIGN KEY (id_almacen) REFERENCES Almacen(id_almacen),
     FOREIGN KEY (id_producto) REFERENCES Producto(id_producto)
