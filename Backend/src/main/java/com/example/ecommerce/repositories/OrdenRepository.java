@@ -16,4 +16,6 @@ public interface OrdenRepository {
     void delete(int id);
 
     List<Orden> getOrdenesCliente(int idCliente);
+
+    List<Orden> findOrdenesEnviadasCercaAlmacen(int idAlmacen);
 }

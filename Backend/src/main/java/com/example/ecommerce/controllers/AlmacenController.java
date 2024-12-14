@@ -33,6 +33,19 @@ public class AlmacenController {
         return ResponseEntity.ok(almacen);
     }
 
+    @GetMapping("/cercano/cliente/{idCliente}")
+    public ResponseEntity<Almacen> getAlmacenMasCercano(@PathVariable int idCliente) {
+        try {
+            Almacen almacen = almacenService.getAlmacenMasCercano(idCliente);
+            if (almacen == null) {
+                return ResponseEntity.notFound().build();
+            }
+            return ResponseEntity.ok(almacen);
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
     @PutMapping("/{id}")
     public ResponseEntity<Almacen> updateAlmacen(@RequestBody Almacen almacen, @PathVariable int id){
         Almacen almacenUpdated = almacenService.updateAlmacen(almacen, id);

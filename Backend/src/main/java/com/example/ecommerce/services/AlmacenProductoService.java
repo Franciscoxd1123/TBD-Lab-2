@@ -14,9 +14,14 @@ public class AlmacenProductoService {
     private AlmacenProductoRepository almacenProductoRepository;
 
     public AlmacenProducto createAlmacenProducto(AlmacenProducto almacenProducto){
-        //Esta como NOT NULL pero no se puede usar esta funcion para eso
-        if (almacenProducto.getCantidad() == null || almacenProducto.getCantidad().trim().isEmpty()) {
-            throw new IllegalArgumentException("La cantidad es obligatorio");
+        // Si cantidad es un int, se necesita verificar si el objeto es null
+        if (almacenProducto == null) {
+            throw new IllegalArgumentException("El almacenProducto no puede ser null");
+        }
+
+        // Si se quiere validar que la cantidad sea mayor a 0 (o algún otro valor)
+        if (almacenProducto.getCantidad() <= 0) {
+            throw new IllegalArgumentException("La cantidad debe ser mayor a 0");
         }
 
         return almacenProductoRepository.create(almacenProducto);

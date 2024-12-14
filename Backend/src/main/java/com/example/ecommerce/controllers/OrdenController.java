@@ -40,6 +40,17 @@ public class OrdenController {
         return ResponseEntity.ok(ordenes);
     }
 
+    @GetMapping("/almacen/{idAlmacen}/cercanas")
+    public ResponseEntity<?> getOrdenesEnviadasCercaAlmacen(@PathVariable int idAlmacen) {
+        try {
+            List<Orden> ordenes = ordenService.getOrdenesEnviadasCercaAlmacen(idAlmacen);
+            return ResponseEntity.ok(ordenes);
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError()
+                    .body("Error al procesar la solicitud: " + e.getMessage());
+        }
+    }
+
     @PutMapping("/{id}")
     public ResponseEntity<Orden> updateOrden(@RequestBody Orden orden, @PathVariable int id) {
         Orden ordenUpdated = ordenService.updateOrden(orden, id);

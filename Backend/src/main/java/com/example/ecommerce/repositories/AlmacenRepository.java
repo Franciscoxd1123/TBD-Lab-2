@@ -14,4 +14,6 @@ public interface AlmacenRepository {
     Almacen update(Almacen almacen, int id);
 
     void delete(int id);
+
+    Almacen findAlmacenMasCercano(int idCliente);
 }

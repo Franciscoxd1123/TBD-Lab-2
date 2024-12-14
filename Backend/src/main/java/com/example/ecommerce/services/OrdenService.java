@@ -48,4 +48,7 @@ public class OrdenService {
         return ordenRepository.getOrdenesCliente(idCliente);
     }
 
+    public List<Orden> getOrdenesEnviadasCercaAlmacen(int idAlmacen) {
+        return ordenRepository.findOrdenesEnviadasCercaAlmacen(idAlmacen);
+    }
 }

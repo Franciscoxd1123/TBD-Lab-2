@@ -14,6 +14,9 @@ public class OrdenRepositoryImp implements OrdenRepository {
     @Autowired
     private Sql2o sql2o;
 
+    private static final double RADIO_KM = 10.0; // Radio fijo de 10 km
+    private static final double METROS_POR_KM = 1000.0;
+
     @Override
     public Orden create(Orden orden) {
         String sql = "INSERT INTO Orden (fecha_orden, estado, id_cliente, total) " +
@@ -104,6 +107,27 @@ public class OrdenRepositoryImp implements OrdenRepository {
                     .executeAndFetch(Orden.class);
         } catch (Exception e) {
             System.out.println("Error al consultar las órdenes del cliente: " + e.getMessage());
+            return null;
+        }
+    }
+
+    @Override
+    public List<Orden> findOrdenesEnviadasCercaAlmacen(int idAlmacen) {
+        String sql = "SELECT DISTINCT o.id_orden AS idOrden, o.fecha_orden AS fechaOrden, " +
+                "o.estado, o.id_cliente AS idCliente, o.total " +
+                "FROM Orden o " +
+                "INNER JOIN Cliente c ON o.id_cliente = c.id_cliente " +
+                "INNER JOIN Almacen a ON a.id_almacen = :idAlmacen " +
+                "WHERE o.estado = 'ENVIADO' " +
+                "AND ST_DWithin(c.location, a.location, :radioMetros)";
+
+        try (Connection con = sql2o.open()) {
+            return con.createQuery(sql)
+                    .addParameter("idAlmacen", idAlmacen)
+                    .addParameter("radioMetros", RADIO_KM * METROS_POR_KM)
+                    .executeAndFetch(Orden.class);
+        } catch (Exception e) {
+            System.out.println("Error al consultar órdenes cercanas: " + e.getMessage());
             return null;
         }
     }

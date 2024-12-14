@@ -93,4 +93,8 @@ public class AlmacenService {
     public void deleteAlmacen(int id){
         almacenRepository.delete(id);
     }
+
+    public Almacen getAlmacenMasCercano(int idCliente) {
+        return almacenRepository.findAlmacenMasCercano(idCliente);
+    }
 }
