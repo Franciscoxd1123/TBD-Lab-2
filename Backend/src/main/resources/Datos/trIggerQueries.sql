@@ -5,82 +5,73 @@ tiempo de llamada, etc.*/
 CREATE OR REPLACE FUNCTION fn_registrar_auditoria()
 RETURNS TRIGGER AS $$
 DECLARE
-datos JSONB;
+    datos JSONB;
     operacion VARCHAR(50);
 BEGIN
     -- Obtener el tipo de operación
-CASE TG_OP
-        WHEN 'INSERT' THEN 
+    CASE TG_OP
+        WHEN 'INSERT' THEN
             operacion := 'INSERT';
             datos := to_jsonb(NEW);
-WHEN 'UPDATE' THEN
+        WHEN 'UPDATE' THEN
             operacion := 'UPDATE';
             datos := jsonb_build_object(
                 'anterior', to_jsonb(OLD),
                 'nuevo', to_jsonb(NEW)
             );
-WHEN 'DELETE' THEN
+        WHEN 'DELETE' THEN
             operacion := 'DELETE';
             datos := to_jsonb(OLD);
-END CASE;
+    END CASE;
 
     -- Insertar en la tabla de auditoría
-INSERT INTO log_auditoria (
-    usuario,
-    operacion,
-    tabla,
-    datos,
-    fecha
-) VALUES (
-                     CURRENT_USER,         -- Usuario actual de la base de datos
-                     operacion,           -- Tipo de operación (INSERT, UPDATE, DELETE)
-                     TG_TABLE_NAME,       -- Nombre de la tabla
-                     datos,              -- Datos en formato JSON
-                     CURRENT_TIMESTAMP    -- Fecha y hora actual
-         );
+    INSERT INTO log_auditoria (
+        usuario,
+        operacion,
+        tabla,
+        datos,
+        fecha
+    ) VALUES (
+        CURRENT_USER,         -- Usuario actual de la base de datos
+        operacion,           -- Tipo de operación (INSERT, UPDATE, DELETE)
+        TG_TABLE_NAME,       -- Nombre de la tabla
+        datos,              -- Datos en formato JSON
+        CURRENT_TIMESTAMP    -- Fecha y hora actual
+    );
 
--- Retornar NEW para INSERT/UPDATE o OLD para DELETE
-IF TG_OP = 'DELETE' THEN
+    -- Retornar NEW para INSERT/UPDATE o OLD para DELETE
+    IF TG_OP = 'DELETE' THEN
         RETURN OLD;
-ELSE
+    ELSE
         RETURN NEW;
-END IF;
+    END IF;
 END;
 $$ LANGUAGE plpgsql;
 
 CREATE TRIGGER trg_auditoria_almacen
-<<<<<<< HEAD
-    AFTER INSERT OR UPDATE OR DELETE ON Almacen
-    FOR EACH ROW EXECUTE FUNCTION fn_registrar_auditoria();
-
-CREATE TRIGGER trg_auditoria_almacen_producto
-    AFTER INSERT OR UPDATE OR DELETE ON Almacen_Producto
-    FOR EACH ROW EXECUTE FUNCTION fn_registrar_auditoria();
-=======
 AFTER INSERT OR UPDATE OR DELETE ON Almacen
 FOR EACH ROW EXECUTE FUNCTION fn_registrar_auditoria();
 
 CREATE TRIGGER trg_auditoria_almacen_producto
 AFTER INSERT OR UPDATE OR DELETE ON Almacen_Producto
 FOR EACH ROW EXECUTE FUNCTION fn_registrar_auditoria();
->>>>>>> 40fa40cdcb138f5fc7b6505b470fb67cd7b2effe
 
 CREATE TRIGGER trg_auditoria_categoria
-    AFTER INSERT OR UPDATE OR DELETE ON Categoria
-    FOR EACH ROW EXECUTE FUNCTION fn_registrar_auditoria();
+AFTER INSERT OR UPDATE OR DELETE ON Categoria
+FOR EACH ROW EXECUTE FUNCTION fn_registrar_auditoria();
 
 CREATE TRIGGER trg_auditoria_cliente
-    AFTER INSERT OR UPDATE OR DELETE ON Cliente
-    FOR EACH ROW EXECUTE FUNCTION fn_registrar_auditoria();
+AFTER INSERT OR UPDATE OR DELETE ON Cliente
+FOR EACH ROW EXECUTE FUNCTION fn_registrar_auditoria();
 
 CREATE TRIGGER trg_auditoria_detalle_orden
-    AFTER INSERT OR UPDATE OR DELETE ON Detalle_Orden
-    FOR EACH ROW EXECUTE FUNCTION fn_registrar_auditoria();
+AFTER INSERT OR UPDATE OR DELETE ON Detalle_Orden
+FOR EACH ROW EXECUTE FUNCTION fn_registrar_auditoria();
 
 CREATE TRIGGER trg_auditoria_orden
-    AFTER INSERT OR UPDATE OR DELETE ON Orden
-    FOR EACH ROW EXECUTE FUNCTION fn_registrar_auditoria();
+AFTER INSERT OR UPDATE OR DELETE ON Orden
+FOR EACH ROW EXECUTE FUNCTION fn_registrar_auditoria();
 
 CREATE TRIGGER trg_auditoria_producto
-    AFTER INSERT OR UPDATE OR DELETE ON Producto
-    FOR EACH ROW EXECUTE FUNCTION fn_registrar_auditoria();
+AFTER INSERT OR UPDATE OR DELETE ON Producto
+FOR EACH ROW EXECUTE FUNCTION fn_registrar_auditoria();

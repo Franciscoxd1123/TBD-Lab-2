@@ -1,8 +1,8 @@
-/*Ej: CURRENT_DATE = 2024-11-20 entonces DATE_TRUNC('month', CURRENT_DATE) devuelve 2024-11-01 - INTERVAL '1 month' = 2024-10-01 y 
+/*Ej: CURRENT_DATE = 2024-11-20 entonces DATE_TRUNC('month', CURRENT_DATE) devuelve 2024-11-01 - INTERVAL '1 month' = 2024-10-01 y
 fecha_orden >= seria filtrar desde el mes anterior hasta la fecha actual*/
 
 /*¿Cuántos clientes realizaron más de una compra en un mismo día durante el último mes y cuáles fueron los productos que compraron?*/
-WITH OrdenesUltimoMes AS ( 
+WITH OrdenesUltimoMes AS (
 	SELECT id_cliente, id_orden, DATE(fecha_orden) AS fecha
 	FROM Orden
 	WHERE fecha_orden >= DATE_TRUNC('month', CURRENT_DATE) - INTERVAL '1 month'
@@ -34,11 +34,9 @@ SELECT
     c.nombre as cliente,
     o.id_orden,
     ROUND(ST_Distance(a.location::geography, c.location::geography)::numeric / 1000, 2) as distancia_km
-FROM Almacen a
-         CROSS JOIN Cliente c
-         INNER JOIN Orden o ON c.id_cliente = o.id_cliente
-WHERE a.id_almacen = 1
-  AND o.estado = 'Enviada';
+FROM Almacen a CROSS JOIN Cliente c
+INNER JOIN Orden o ON c.id_cliente = o.id_cliente
+WHERE a.id_almacen = 1 AND o.estado = 'Enviada';
 
 -- Obtener el almacén más cercano a un cliente específico
 SELECT
@@ -48,8 +46,7 @@ SELECT
     c.nombre as cliente,
     c.direccion as direccion_cliente,
     ROUND(ST_Distance(a.location::geography, c.location::geography)::numeric / 1000, 2) as distancia_km
-FROM Cliente c
-         CROSS JOIN Almacen a
+FROM Cliente c CROSS JOIN Almacen a
 WHERE c.id_cliente = 1
 ORDER BY distancia_km ASC
-    LIMIT 1;
+LIMIT 1;
