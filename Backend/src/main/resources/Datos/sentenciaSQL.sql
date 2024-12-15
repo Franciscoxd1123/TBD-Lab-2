@@ -26,17 +26,20 @@ ORDER BY c.id_cliente, cmc.fecha, p.nombre;
 Select id_cliente, id_orden, estado, DATE(fecha_orden) AS fecha
 From Orden;
 
--- Verificar distancias entre el almacén 1 y los clientes con órdenes enviadas
+-- Verificar distancias entre los almacenes y los clientes con órdenes enviadas, distancia <= 10km
 SELECT
-    a.id_almacen,
-    a.nombre as almacen,
-    c.id_cliente,
-    c.nombre as cliente,
-    o.id_orden,
-    ROUND(ST_Distance(a.location::geography, c.location::geography)::numeric / 1000, 2) as distancia_km
-FROM Almacen a CROSS JOIN Cliente c
+   a.id_almacen,
+   a.nombre as almacen,
+   c.id_cliente,
+   c.nombre as cliente,
+   o.id_orden,
+   ROUND(ST_Distance(a.location::geography, c.location::geography)::numeric / 1000, 2) as distancia_km
+FROM Almacen a
+CROSS JOIN Cliente c
 INNER JOIN Orden o ON c.id_cliente = o.id_cliente
-WHERE a.id_almacen = 1 AND o.estado = 'Enviada';
+WHERE a.id_almacen = 1
+AND o.estado = 'Enviada'
+AND ST_Distance(a.location::geography, c.location::geography) <= 10000; -- 10km en metros
 
 -- Obtener el almacén más cercano a un cliente específico
 SELECT

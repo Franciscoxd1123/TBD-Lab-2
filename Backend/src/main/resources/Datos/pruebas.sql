@@ -1,26 +1,17 @@
-SELECT * FROM almacen;
+SELECT * FROM almacen ORDER BY id_almacen;
 
-SELECT * FROM almacen_producto;
+SELECT * FROM almacen_producto ORDER BY id_almacen_producto;
 
-SELECT * FROM categoria;
+SELECT * FROM categoria ORDER BY id_categoria;
 
-SELECT * FROM cliente;
+SELECT * FROM cliente ORDER BY id_cliente;
 
-SELECT * FROM detalle_orden;
+SELECT * FROM detalle_orden ORDER BY id_detalle;
 
-SELECT * FROM log_auditoria;
+SELECT * FROM log_auditoria ORDER BY id_log;
 
-SELECT * FROM orden;
+SELECT * FROM orden ORDER BY id_orden;
 
-SELECT * FROM producto;
-
-INSERT INTO Producto (nombre, descripcion, precio, stock, estado, id_categoria)
-VALUES ('Auto de madera', 'Auto de juguete', 50.99, 1, 'Disponible', 4);
-
-INSERT INTO Producto (nombre, descripcion, precio, stock, estado, id_categoria)
-VALUES ('Herramienta de jardinería', 'Herramienta para jardinear', 20.00, 1, 'Disponible', 6);
-
-INSERT INTO Categoria (nombre) VALUES
-('Jardinería');
+SELECT * FROM producto ORDER BY id_producto ASC;
 
 CALL reporte_usuarios_mas_activos();
