@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/ordenes")
@@ -43,7 +44,10 @@ public class OrdenController {
     @GetMapping("/almacen/{idAlmacen}/cercanas")
     public ResponseEntity<?> getOrdenesEnviadasCercaAlmacen(@PathVariable int idAlmacen) {
         try {
-            List<Orden> ordenes = ordenService.getOrdenesEnviadasCercaAlmacen(idAlmacen);
+            List<Map<String, Object>> ordenes = ordenService.getOrdenesEnviadasCercaAlmacen(idAlmacen);
+            if (ordenes == null || ordenes.isEmpty()) {
+                return ResponseEntity.noContent().build();
+            }
             return ResponseEntity.ok(ordenes);
         } catch (Exception e) {
             return ResponseEntity.internalServerError()

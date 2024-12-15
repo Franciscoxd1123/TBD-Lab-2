@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/almacenes")
@@ -34,15 +35,16 @@ public class AlmacenController {
     }
 
     @GetMapping("/cercano/cliente/{idCliente}")
-    public ResponseEntity<Almacen> getAlmacenMasCercano(@PathVariable int idCliente) {
+    public ResponseEntity<?> getAlmacenMasCercano(@PathVariable int idCliente) {
         try {
-            Almacen almacen = almacenService.getAlmacenMasCercano(idCliente);
+            Map<String, Object> almacen = almacenService.getAlmacenMasCercano(idCliente);
             if (almacen == null) {
                 return ResponseEntity.notFound().build();
             }
             return ResponseEntity.ok(almacen);
         } catch (Exception e) {
-            return ResponseEntity.internalServerError().build();
+            return ResponseEntity.internalServerError()
+                    .body("Error al procesar la solicitud: " + e.getMessage());
         }
     }
 

@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 import org.sql2o.Connection;
 import org.sql2o.Sql2o;
 import java.util.List;
+import java.util.Map;
 
 @Repository
 public class AlmacenRepositoryImp implements AlmacenRepository{
@@ -95,9 +96,10 @@ public class AlmacenRepositoryImp implements AlmacenRepository{
     }
 
     @Override
-    public Almacen findAlmacenMasCercano(int idCliente) {
+    public Map<String, Object> findAlmacenMasCercano(int idCliente) {
         String sql = "SELECT a.id_almacen AS idAlmacen, " +
-                "a.nombre, a.direccion, a.latitud, a.longitud, a.location " +
+                "a.nombre, a.direccion, " +
+                "ROUND(CAST(ST_Distance(a.location::geography, c.location::geography) / 1000 AS numeric), 2) AS distanciaKm " +
                 "FROM Almacen a, Cliente c " +
                 "WHERE c.id_cliente = :idCliente " +
                 "ORDER BY ST_Distance(a.location::geography, c.location::geography) ASC " +
@@ -106,9 +108,12 @@ public class AlmacenRepositoryImp implements AlmacenRepository{
         try (Connection con = sql2o.open()) {
             return con.createQuery(sql)
                     .addParameter("idCliente", idCliente)
-                    .executeAndFetchFirst(Almacen.class);
+                    .executeAndFetchTable()
+                    .asList()
+                    .get(0);
         } catch (Exception e) {
             System.out.println("Error al buscar almacén cercano: " + e.getMessage());
+            e.printStackTrace();
             return null;
         }
     }

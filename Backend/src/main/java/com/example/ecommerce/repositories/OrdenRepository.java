@@ -1,8 +1,8 @@
 package com.example.ecommerce.repositories;
 
-import com.example.ecommerce.models.Cliente;
 import com.example.ecommerce.models.Orden;
 import java.util.List;
+import java.util.Map;
 
 public interface OrdenRepository {
     Orden create(Orden orden);
@@ -17,5 +17,5 @@ public interface OrdenRepository {
 
     List<Orden> getOrdenesCliente(int idCliente);
 
-    List<Orden> findOrdenesEnviadasCercaAlmacen(int idAlmacen);
+    List<Map<String, Object>> findOrdenesEnviadasCercaAlmacen(int idAlmacen);
 }

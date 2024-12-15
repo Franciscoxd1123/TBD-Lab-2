@@ -2,6 +2,7 @@ package com.example.ecommerce.repositories;
 
 import com.example.ecommerce.models.Almacen;
 import java.util.List;
+import java.util.Map;
 
 public interface AlmacenRepository {
 
@@ -15,5 +16,5 @@ public interface AlmacenRepository {
 
     void delete(int id);
 
-    Almacen findAlmacenMasCercano(int idCliente);
+    Map<String, Object> findAlmacenMasCercano(int idCliente);
 }

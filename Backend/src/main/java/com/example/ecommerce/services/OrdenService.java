@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Date;
+import java.util.Map;
 
 @Service
 public class OrdenService {
@@ -48,7 +49,7 @@ public class OrdenService {
         return ordenRepository.getOrdenesCliente(idCliente);
     }
 
-    public List<Orden> getOrdenesEnviadasCercaAlmacen(int idAlmacen) {
+    public List<Map<String, Object>> getOrdenesEnviadasCercaAlmacen(int idAlmacen) {
         return ordenRepository.findOrdenesEnviadasCercaAlmacen(idAlmacen);
     }
 }

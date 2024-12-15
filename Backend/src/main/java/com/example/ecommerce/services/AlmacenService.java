@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class AlmacenService {
@@ -94,7 +95,7 @@ public class AlmacenService {
         almacenRepository.delete(id);
     }
 
-    public Almacen getAlmacenMasCercano(int idCliente) {
+    public Map<String, Object> getAlmacenMasCercano(int idCliente) {
         return almacenRepository.findAlmacenMasCercano(idCliente);
     }
 }

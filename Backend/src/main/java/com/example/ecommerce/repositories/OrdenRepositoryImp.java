@@ -4,9 +4,10 @@ import com.example.ecommerce.models.Orden;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.sql2o.Connection;
+import org.sql2o.Query;
 import org.sql2o.Sql2o;
-
 import java.util.List;
+import java.util.Map;
 
 @Repository
 public class OrdenRepositoryImp implements OrdenRepository {
@@ -112,22 +113,27 @@ public class OrdenRepositoryImp implements OrdenRepository {
     }
 
     @Override
-    public List<Orden> findOrdenesEnviadasCercaAlmacen(int idAlmacen) {
-        String sql = "SELECT DISTINCT o.id_orden AS idOrden, o.fecha_orden AS fechaOrden, " +
-                "o.estado, o.id_cliente AS idCliente, o.total " +
+    public List<Map<String, Object>> findOrdenesEnviadasCercaAlmacen(int idAlmacen) {
+        String sql = "SELECT DISTINCT o.id_orden AS idOrden, " +
+                "o.fecha_orden AS fechaOrden, " +
+                "o.estado, o.id_cliente AS idCliente, " +
+                "o.total, " +
+                "ROUND(CAST(ST_Distance(c.location::geography, a.location::geography) / 1000 AS numeric), 2) AS distanciaKm " +
                 "FROM Orden o " +
                 "INNER JOIN Cliente c ON o.id_cliente = c.id_cliente " +
                 "INNER JOIN Almacen a ON a.id_almacen = :idAlmacen " +
-                "WHERE o.estado = 'ENVIADO' " +
-                "AND ST_DWithin(c.location, a.location, :radioMetros)";
+                "WHERE o.estado = 'Enviada' " +
+                "AND ST_DWithin(c.location::geography, a.location::geography, :radioMetros) " +
+                "ORDER BY distanciaKm";
 
         try (Connection con = sql2o.open()) {
-            return con.createQuery(sql)
+            Query query = con.createQuery(sql)
                     .addParameter("idAlmacen", idAlmacen)
-                    .addParameter("radioMetros", RADIO_KM * METROS_POR_KM)
-                    .executeAndFetch(Orden.class);
+                    .addParameter("radioMetros", 10000);
+            return query.executeAndFetchTable().asList();
         } catch (Exception e) {
             System.out.println("Error al consultar órdenes cercanas: " + e.getMessage());
+            e.printStackTrace();
             return null;
         }
     }
