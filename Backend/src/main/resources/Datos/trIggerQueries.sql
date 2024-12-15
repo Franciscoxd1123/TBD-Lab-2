@@ -49,12 +49,21 @@ END;
 $$ LANGUAGE plpgsql;
 
 CREATE TRIGGER trg_auditoria_almacen
+<<<<<<< HEAD
     AFTER INSERT OR UPDATE OR DELETE ON Almacen
     FOR EACH ROW EXECUTE FUNCTION fn_registrar_auditoria();
 
 CREATE TRIGGER trg_auditoria_almacen_producto
     AFTER INSERT OR UPDATE OR DELETE ON Almacen_Producto
     FOR EACH ROW EXECUTE FUNCTION fn_registrar_auditoria();
+=======
+AFTER INSERT OR UPDATE OR DELETE ON Almacen
+FOR EACH ROW EXECUTE FUNCTION fn_registrar_auditoria();
+
+CREATE TRIGGER trg_auditoria_almacen_producto
+AFTER INSERT OR UPDATE OR DELETE ON Almacen_Producto
+FOR EACH ROW EXECUTE FUNCTION fn_registrar_auditoria();
+>>>>>>> 40fa40cdcb138f5fc7b6505b470fb67cd7b2effe
 
 CREATE TRIGGER trg_auditoria_categoria
     AFTER INSERT OR UPDATE OR DELETE ON Categoria
