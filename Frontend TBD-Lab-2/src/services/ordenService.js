@@ -41,5 +41,9 @@ export default {
 
     getDetallesOrden(idOrden) {
         return apiClient.get(`/detalles/${idOrden}`);
+    },
+
+    getOrdenesCercanas(idAlmacen) {
+        return apiClient.get(`/almacen/${idAlmacen}/cercanas`);
     }
 };

@@ -6,6 +6,8 @@ import UserMenuView from '../views/UserMenu.vue';
 import HistorialCompra from '../components/HistorialCompra.vue';
 import ListaOrdenes from '../components/ListaOrdenes.vue';
 import Devolucion from '../components/Devolucion.vue';
+import OrdenesCercanas from '../components/OrdenesCercanas.vue';
+import AlmacenCercano from '../components/AlmacenCercano.vue';
 
 const routes = [
   {
@@ -42,7 +44,17 @@ const routes = [
     path: '/devolucion-productos',
     name: 'Devolucion',
     component: Devolucion,
-  }
+  },
+  {
+    path: '/ordenes-cercanas',
+    name: 'OrdenesCercanas',
+    component: OrdenesCercanas
+  },
+  {
+    path: '/almacen-cercano',
+    name: 'AlmacenCercano',
+    component: AlmacenCercano
+  },
   
 ];
 

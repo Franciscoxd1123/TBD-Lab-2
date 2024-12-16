@@ -7,6 +7,8 @@
         <li><router-link to="/lista-ordenes">Lista de órdenes</router-link></li>
         <li><router-link to="/devolucion-productos">Devolución de productos</router-link></li>
         <li><router-link to="/historial-compras">Historial de compras</router-link></li>
+        <li><router-link to="/ordenes-cercanas">Órdenes cercanas (10km)</router-link></li>
+        <li><router-link to="/almacen-cercano">Almacén más cercano</router-link></li>
         <li class="logout-item">
           <button @click="handleLogout" class="logout-button">
             Cerrar sesión
