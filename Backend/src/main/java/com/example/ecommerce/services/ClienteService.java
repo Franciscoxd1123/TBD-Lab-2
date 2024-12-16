@@ -2,7 +2,9 @@ package com.example.ecommerce.services;
 
 import com.example.ecommerce.models.Almacen;
 import com.example.ecommerce.models.Cliente;
+import com.example.ecommerce.repositories.AlmacenRepositoryImp;
 import com.example.ecommerce.repositories.ClienteRepository;
+import com.example.ecommerce.repositories.ClienteRepositoryImp;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.locationtech.jts.geom.Coordinate;
@@ -27,6 +29,10 @@ public class ClienteService {
     private RestTemplate restTemplate = new RestTemplate();
     private ObjectMapper objectMapper = new ObjectMapper();
     private GeometryFactory geometryFactory = new GeometryFactory(new PrecisionModel(), 4326);
+    @Autowired
+    private AlmacenRepositoryImp almacenRepositoryImp;
+    @Autowired
+    private ClienteRepositoryImp clienteRepositoryImp;
 
     // Metodo para obtener latitud, longitud y location utilizando OpenStreetMap Nominatim
     private void obtenerGeolocalizacion(Cliente cliente) {
@@ -106,8 +112,10 @@ public class ClienteService {
         return clienteRepository.update(cliente, id);
     }
 
-    public Double shortestRoute(Almacen almacen, Cliente cliente) {
-        return clienteRepository.shortestRoute(almacen, cliente);
+    public Double shortestRoute(long almacenId, long clienteId) {
+        Almacen foundAlmacen = almacenRepositoryImp.getAlmacenId((int) almacenId);
+        Cliente foundCliente = clienteRepositoryImp.getClienteId((int) clienteId);
+        return clienteRepository.shortestRoute(foundAlmacen, foundCliente);
     }
 
     public void deleteCliente(int id){

@@ -3,6 +3,7 @@ package com.example.ecommerce.controllers;
 import com.example.ecommerce.models.Almacen;
 import com.example.ecommerce.models.Cliente;
 import com.example.ecommerce.services.ClienteService;
+import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -76,14 +77,20 @@ public class ClienteController {
     }
 
     @PostMapping("/shortestRoute")
-    public ResponseEntity<?> shortestRoute(@RequestBody Cliente cliente, @RequestBody Almacen almacen) {
+    public ResponseEntity<?> shortestRoute(@RequestBody shortestRouteRequest request) {
         try {
-            return ResponseEntity.ok(clienteService.shortestRoute(almacen, cliente));
+            return ResponseEntity.ok(clienteService.shortestRoute(request.getAlmacenId(), request.getClienteId()));
         } catch (IllegalArgumentException e) {
             return  ResponseEntity
                     .status(HttpStatus.UNAUTHORIZED)
                     .body(e.getMessage());
         }
+    }
+
+    @Data
+    public static class shortestRouteRequest {
+        private Long almacenId;
+        private Long clienteId;
     }
 
 }
