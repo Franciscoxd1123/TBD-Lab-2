@@ -40,6 +40,7 @@ onMounted(async () => {
                     nombre: almacenes[i].nombre,
                     direccion: almacenes[i].direccion,
                 })
+                console.log(almacenInfo.value)
             }
         }
         busquedaRealizada.value = true;
