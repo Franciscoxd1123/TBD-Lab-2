@@ -1,5 +1,6 @@
 package com.example.ecommerce.controllers;
 
+import com.example.ecommerce.models.Almacen;
 import com.example.ecommerce.models.Cliente;
 import com.example.ecommerce.services.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,6 +70,17 @@ public class ClienteController {
             return ResponseEntity.ok(cliente);
         } catch (IllegalArgumentException e) {
             return ResponseEntity
+                    .status(HttpStatus.UNAUTHORIZED)
+                    .body(e.getMessage());
+        }
+    }
+
+    @PostMapping("/shortestRoute")
+    public ResponseEntity<?> shortestRoute(@RequestBody Cliente cliente, @RequestBody Almacen almacen) {
+        try {
+            return ResponseEntity.ok(clienteService.shortestRoute(almacen, cliente));
+        } catch (IllegalArgumentException e) {
+            return  ResponseEntity
                     .status(HttpStatus.UNAUTHORIZED)
                     .body(e.getMessage());
         }

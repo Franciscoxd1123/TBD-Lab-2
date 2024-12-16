@@ -1,5 +1,6 @@
 package com.example.ecommerce.repositories;
 
+import com.example.ecommerce.models.Almacen;
 import com.example.ecommerce.models.Cliente;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -48,6 +49,26 @@ public class ClienteRepositoryImp implements ClienteRepository{
             return con.createQuery(sql).executeAndFetch(Cliente.class);
         } catch (Exception e) {
             System.out.println("Error al consultar los clientes: " + e.getMessage());
+            return null;
+        }
+    }
+
+    @Override
+    public Double shortestRoute(Almacen almacen, Cliente cliente) {
+        String sql = "SELECT ST_Distance(" +
+                    "ST_GeomFromText('POINT(:latAlmacen, :longAlmacen)', 4326)," +
+                    "ST_GeomFromText('POINT(:latCliente, :longCliente)', 4326)," +
+                    "true) AS distance";
+
+        try (Connection con = sql2o.open()) {
+            return con.createQuery(sql)
+                    .addParameter("latAlmacen", almacen.getLatitud())
+                    .addParameter("longAlmacen", almacen.getLongitud())
+                    .addParameter("latCliente", cliente.getLatitud())
+                    .addParameter("longCliente", cliente.getLongitud())
+                    .executeScalar(Double.class);
+        } catch (Exception e) {
+            System.out.println("Error al conseguir la ruta mas corta: " + e.getMessage());
             return null;
         }
     }

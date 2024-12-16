@@ -1,5 +1,6 @@
 package com.example.ecommerce.services;
 
+import com.example.ecommerce.models.Almacen;
 import com.example.ecommerce.models.Cliente;
 import com.example.ecommerce.repositories.ClienteRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -103,6 +104,10 @@ public class ClienteService {
             obtenerGeolocalizacion(cliente);
         }
         return clienteRepository.update(cliente, id);
+    }
+
+    public Double shortestRoute(Almacen almacen, Cliente cliente) {
+        return clienteRepository.shortestRoute(almacen, cliente);
     }
 
     public void deleteCliente(int id){
