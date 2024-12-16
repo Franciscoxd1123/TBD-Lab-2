@@ -93,4 +93,9 @@ public class ClienteController {
         private int idCliente;
     }
 
+    @GetMapping("/reporte-general")
+    public ResponseEntity<?> reporteGeneral() {
+        return ResponseEntity.ok(clienteService.getReporteGeneral());
+    }
+
 }

@@ -145,4 +145,17 @@ public class ClienteRepositoryImp implements ClienteRepository{
             return null;
         }
     }
+
+    @Override
+    public Object getReporteGeneral(){
+        String sql = "CALL reporte_usuarios_mas_activos()";
+
+        try (Connection con = sql2o.open()){
+            return con.createQuery(sql).executeScalar();
+        }
+        catch (Exception e) {
+            System.out.println("Error al eliminar el cliente: " + e.getMessage());
+            return null;
+        }
+    }
 }

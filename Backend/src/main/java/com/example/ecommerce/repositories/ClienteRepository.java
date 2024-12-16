@@ -23,4 +23,5 @@ public interface ClienteRepository {
 
     Double shortestRoute(int almacen, int cliente);
 
+    Object getReporteGeneral();
 }

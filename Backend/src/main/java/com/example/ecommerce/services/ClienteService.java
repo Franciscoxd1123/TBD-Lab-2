@@ -120,6 +120,8 @@ public class ClienteService {
         clienteRepository.delete(id);
     }
 
+    public Object getReporteGeneral() { return clienteRepository.getReporteGeneral(); }
+
     public Cliente login(String email, String password) {
         if (email == null || email.trim().isEmpty()) {
             throw new IllegalArgumentException("El email es requerido");
