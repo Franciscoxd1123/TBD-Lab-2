@@ -41,7 +41,7 @@ public class ClienteRepositoryImp implements ClienteRepository{
 
     @Override
     public List<Cliente> getAll() {
-        String sql = "SELECT id_cliente AS idCliente, nombre, direccion, email, telefono, password, latitud, longitud, location " +
+        String sql = "SELECT id_cliente AS idCliente, nombre, direccion, email, telefono, password, latitud, longitud " +
                 "FROM Cliente";
 
         try (Connection con = sql2o.open()) {
@@ -54,7 +54,7 @@ public class ClienteRepositoryImp implements ClienteRepository{
 
     @Override
     public Cliente getClienteId(int id) {
-        String sql = "SELECT id_cliente AS idCliente, nombre, direccion, email, telefono, password, latitud, longitud, location " +
+        String sql = "SELECT id_cliente AS idCliente, nombre, direccion, email, telefono, password, latitud, longitud " +
                 "FROM Cliente WHERE id_cliente = :id";
 
         try (Connection con = sql2o.open()) {

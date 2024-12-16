@@ -40,7 +40,7 @@ public class AlmacenRepositoryImp implements AlmacenRepository{
 
     @Override
     public List<Almacen> getAll() {
-        String sql = "SELECT id_almacen AS idAlmacen, nombre, direccion, latitud, longitud, location FROM Almacen";
+        String sql = "SELECT id_almacen AS idAlmacen, nombre, direccion, latitud, longitud FROM Almacen";
 
         try (Connection con = sql2o.open()) {
             return con.createQuery(sql).executeAndFetch(Almacen.class);
@@ -52,7 +52,7 @@ public class AlmacenRepositoryImp implements AlmacenRepository{
 
     @Override
     public Almacen getAlmacenId(int id) {
-        String sql = "SELECT id_almacen AS idAlmacen, nombre, direccion, latitud, longitud, location FROM Almacen WHERE id_almacen = :id";
+        String sql = "SELECT id_almacen AS idAlmacen, nombre, direccion, latitud, longitud FROM Almacen WHERE id_almacen = :id";
 
         try (Connection con = sql2o.open()) {
             return con.createQuery(sql)
