@@ -30,11 +30,16 @@
         <p v-else-if="busquedaRealizada" class="no-results">
             No se encontraron órdenes en un radio de 10km
         </p>
+
+        <button @click="goBack" class="go-back-btn">
+         Volver
+        </button>
     </div>
 </template>
 
 <script setup>
 import { ref, onMounted } from 'vue';
+import { useRouter } from 'vue-router';
 import ordenService from '../services/ordenService';
 import almacenService from '../services/almacenService';
 
@@ -42,6 +47,7 @@ const selectedAlmacen = ref('');
 const ordenes = ref([]);
 const almacenes = ref([]);
 const busquedaRealizada = ref(false);
+const router = useRouter();
 
 onMounted(async () => {
     try {
@@ -77,6 +83,10 @@ const formatearFecha = (fecha) => {
     } catch (e) {
         return 'Fecha inválida';
     }
+};
+
+const goBack = () => {
+  router.push({ name: 'UserMenu' });
 };
 </script>
 
@@ -141,5 +151,22 @@ const formatearFecha = (fecha) => {
     color: #e74c3c;
     text-align: center;
     font-weight: bold;
+}
+
+.go-back-btn {
+  width: 100%;
+  padding: 0.75rem;
+  background: #e74c3c;
+  color: black;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  cursor: pointer;
+  margin-top: 1rem;
+  transition: background-color 0.2s;
+}
+
+.go-back-btn:hover {
+  background: #c0392b;
 }
 </style>

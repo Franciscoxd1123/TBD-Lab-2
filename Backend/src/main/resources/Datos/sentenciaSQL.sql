@@ -53,3 +53,8 @@ FROM Cliente c CROSS JOIN Almacen a
 WHERE c.id_cliente = 1
 ORDER BY distancia_km ASC
 LIMIT 1;
+
+--Obtener la ruta más corta entre un almacen y un cliente especifico
+SELECT ROUND(CAST(ST_Distance(a.location::geography, c.location::geography) AS numeric), 2) AS distancia
+FROM Almacen a, Cliente c
+WHERE c.id_cliente = 1 AND a.id_almacen = 1;

@@ -21,6 +21,6 @@ public interface ClienteRepository {
 
     Cliente findByEmail(String email);
 
-    Double shortestRoute(Almacen almacen, Cliente cliente);
+    Double shortestRoute(int almacen, int cliente);
 
 }

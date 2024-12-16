@@ -18,16 +18,22 @@
         <p v-else-if="busquedaRealizada" class="no-results">
             No se encontró información del almacén más cercano
         </p>
+
+        <button @click="goBack" class="go-back-btn">
+         Volver
+        </button>
     </div>
 </template>
 
 <script setup>
 import { ref, onMounted } from 'vue';
+import { useRouter } from 'vue-router';
 import almacenService from '../services/almacenService';
 
 const almacenInfo = ref(null);
 const busquedaRealizada = ref(false);
 const userData = ref(null);
+const router = useRouter();
 
 onMounted(async () => {
     try {
@@ -44,6 +50,10 @@ onMounted(async () => {
         busquedaRealizada.value = true;
     }
 });
+
+const goBack = () => {
+  router.push({ name: 'UserMenu' });
+};
 </script>
 
 <style scoped>
@@ -93,5 +103,22 @@ onMounted(async () => {
     color: #e74c3c;
     text-align: center;
     font-weight: bold;
+}
+
+.go-back-btn {
+  width: 100%;
+  padding: 0.75rem;
+  background: #e74c3c;
+  color: black;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  cursor: pointer;
+  margin-top: 1rem;
+  transition: background-color 0.2s;
+}
+
+.go-back-btn:hover {
+  background: #c0392b;
 }
 </style>
