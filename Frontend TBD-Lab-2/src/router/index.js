@@ -8,6 +8,7 @@ import ListaOrdenes from '../components/ListaOrdenes.vue';
 import Devolucion from '../components/Devolucion.vue';
 import OrdenesCercanas from '../components/OrdenesCercanas.vue';
 import AlmacenCercano from '../components/AlmacenCercano.vue';
+import AlmacenesDistancia from '../components/AlmacenesDistancia.vue';
 
 const routes = [
   {
@@ -54,6 +55,11 @@ const routes = [
     path: '/almacen-cercano',
     name: 'AlmacenCercano',
     component: AlmacenCercano
+  },
+  {
+    path: '/distancia-almacenes',
+    name: AlmacenesDistancia,
+    component: AlmacenesDistancia
   },
   
 ];

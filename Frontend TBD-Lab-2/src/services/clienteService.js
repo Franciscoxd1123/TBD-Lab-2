@@ -30,6 +30,10 @@ export default {
         });
     },
 
+    shortestRoute(payload) {
+        return apiClient.post('/shortestRoute', payload)
+    }
+
     // Actualizar un cliente
     updateCliente(id, data) {
         return apiClient.put(`/${id}`, data);
