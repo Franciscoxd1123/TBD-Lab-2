@@ -90,21 +90,15 @@ public class ClienteRepositoryImp implements ClienteRepository{
 
     @Override
     public Cliente update(Cliente cliente, int id) {
-        String sql = "UPDATE Cliente SET nombre = :nombre, direccion = :direccion, email = :email, telefono = :telefono, " +
-                "password = :password, latitud = :latitud, longitud = :longitud, location = :location " +
+        String sql = "UPDATE Cliente SET nombre = :nombre, email = :email, telefono = :telefono " +
                 "WHERE id_cliente = :id";
 
         try (Connection con = sql2o.open()) {
             con.createQuery(sql)
                     .addParameter("id", id)
                     .addParameter("nombre", cliente.getNombre())
-                    .addParameter("direccion", cliente.getDireccion())
                     .addParameter("email", cliente.getEmail())
                     .addParameter("telefono", cliente.getTelefono())
-                    .addParameter("password", cliente.getPassword())
-                    .addParameter("latitud", cliente.getLatitud())
-                    .addParameter("longitud", cliente.getLongitud())
-                    .addParameter("location", cliente.getLocation())
                     .executeUpdate();
             return cliente;
         } catch (Exception e) {

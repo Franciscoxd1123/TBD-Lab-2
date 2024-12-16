@@ -66,16 +66,12 @@ public class AlmacenRepositoryImp implements AlmacenRepository{
 
     @Override
     public Almacen update(Almacen almacen, int id) {
-        String sql = "UPDATE Almacen SET nombre = :nombre, direccion = :direccion, latitud = :latitud, longitud = :longitud, location = :location WHERE id_almacen = :id";
+        String sql = "UPDATE Almacen SET nombre = :nombre WHERE id_almacen = :id";
 
         try (Connection con = sql2o.open()) {
             con.createQuery(sql)
                     .addParameter("id", id)
                     .addParameter("nombre", almacen.getNombre())
-                    .addParameter("direccion", almacen.getDireccion())
-                    .addParameter("latitud", almacen.getLatitud())
-                    .addParameter("longitud", almacen.getLongitud())
-                    .addParameter("location", almacen.getLocation())
                     .executeUpdate();
             return almacen;
         } catch (Exception e) {
