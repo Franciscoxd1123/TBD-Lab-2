@@ -79,7 +79,7 @@ public class ClienteController {
     @PostMapping("/shortestRoute")
     public ResponseEntity<?> shortestRoute(@RequestBody shortestRouteRequest request) {
         try {
-            return ResponseEntity.ok(clienteService.shortestRoute(request.getAlmacenId(), request.getClienteId()));
+            return ResponseEntity.ok(clienteService.shortestRoute(request.getIdAlmacen(), request.getIdCliente()));
         } catch (IllegalArgumentException e) {
             return  ResponseEntity
                     .status(HttpStatus.UNAUTHORIZED)
@@ -89,8 +89,8 @@ public class ClienteController {
 
     @Data
     public static class shortestRouteRequest {
-        private Long almacenId;
-        private Long clienteId;
+        private int idAlmacen;
+        private int idCliente;
     }
 
 }

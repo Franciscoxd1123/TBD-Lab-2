@@ -112,10 +112,8 @@ public class ClienteService {
         return clienteRepository.update(cliente, id);
     }
 
-    public Double shortestRoute(long almacenId, long clienteId) {
-        Almacen foundAlmacen = almacenRepositoryImp.getAlmacenId((int) almacenId);
-        Cliente foundCliente = clienteRepositoryImp.getClienteId((int) clienteId);
-        return clienteRepository.shortestRoute(foundAlmacen, foundCliente);
+    public Double shortestRoute(int almacenId, int clienteId) {
+        return clienteRepository.shortestRoute(almacenId, clienteId);
     }
 
     public void deleteCliente(int id){

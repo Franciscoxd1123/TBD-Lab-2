@@ -54,18 +54,17 @@ public class ClienteRepositoryImp implements ClienteRepository{
     }
 
     @Override
-    public Double shortestRoute(Almacen almacen, Cliente cliente) {
-        String sql = "SELECT ST_Distance(" +
-                    "ST_GeomFromText('POINT(:latAlmacen, :longAlmacen)', 4326)," +
-                    "ST_GeomFromText('POINT(:latCliente, :longCliente)', 4326)," +
-                    "true) AS distance";
+    public Double shortestRoute(int idAlmacen, int idCliente) {
+        String sql = "SELECT " +
+                "ROUND(CAST(ST_Distance(a.location::geography, c.location::geography) AS numeric), 2) AS distancia " +
+                "FROM Almacen a, Cliente c " +
+                "WHERE c.id_cliente = :idCliente " +
+                "AND a.id_almacen = :idAlmacen";
 
         try (Connection con = sql2o.open()) {
             return con.createQuery(sql)
-                    .addParameter("latAlmacen", almacen.getLatitud())
-                    .addParameter("longAlmacen", almacen.getLongitud())
-                    .addParameter("latCliente", cliente.getLatitud())
-                    .addParameter("longCliente", cliente.getLongitud())
+                    .addParameter("idCliente", idCliente)
+                    .addParameter("idAlmacen", idAlmacen)
                     .executeScalar(Double.class);
         } catch (Exception e) {
             System.out.println("Error al conseguir la ruta mas corta: " + e.getMessage());
