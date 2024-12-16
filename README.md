@@ -22,7 +22,7 @@ Una vez instalado todo eso, para levantar el frontend se debe en la consola ejec
 
 Después utilizar un IDE a gusto para poder manejar Frontend y Backend del proyecto. Con esto acceder mediante el IDE seleccionado a los archivos `application.properties` y `Sql2oConfig.java` que se encuentran en  `\src\main\resources` y `\src\main\java\com\example\Ecommerce\config" respectivamente, estos se encuentran en el Backend del proyecto y se tienen que modificar credenciales de el nombre de usuario y contraseña de acceso a la base de datos en postgreSQL (Cambiar el puerto si es necesario, pero postgreSQL trabaja por defecto en el puerto 5432).
 
-Tener creada una base de datos en postgreSQL con el nombre `Ecommerce` y utilizar el script llamado `createDB.sql` para crear la base de datos, luego utilizar `datosDump.sql` para poder cargar datos "dummy" todo esto se encuentra en la ruta del proyecto `\src\main\resources\Datos`, el cual contiene la creación de la base de datos, la creación de tablas y su llenado, además de 2 sentencias para poder visualizar los usuarios y las tareas.
+Tener creada una base de datos en postgreSQL con el nombre `Ecommerce` y utilizar el archivo `respaldo_Ecommerce.tar` para poder "restaurar" la base de datos, esto se puede usar desde pgAdmin o con la consola ingresando el comando `pg_restore -c -U [tu usuario] -d Ecommerce -v "/ruta del archivo/respaldo_Ecommerce.tar"`.
 
 Con esto queda listo para levantar el Backend, en nuestro caso utilizamos IntelliJ 
 
@@ -57,6 +57,15 @@ Devolucion de productos:
 
 Historial de Compras:
 - Todas las compras del usuario que se encuentren enviadas o pagadas pendientes a su envio, en caso de que el pago este pendiente o haya sido devuelto no aparecen.
+
+Ordenes cercanas (10km):
+- Muestra todas las ordenes que se encuentren cerca, entendiendo que cerca es un radio de 10km.
+
+Almacen mas cercano:
+- Te muestra a partir de todos los almacenes registrados, cual es el mas cercano respecto a la direccion del cliente.
+
+Ruta mas corta:
+- Tomando en cuenta todos los almacenes, retorna la distancia de la rota mas corta de cada uno de ellos.
 
 Cerrar sesion.
 
