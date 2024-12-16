@@ -10,45 +10,56 @@
             <p>Dirección: {{ userData.direccion }}</p>
         </div>
 
+        <h2>Lista de almacenes</h2>
         <div v-for="almacen in almacenInfo" class="almacen-info">
             <h3>{{ almacen.nombre }}</h3>
             <p>Dirección: {{ almacen.direccion }}</p>
-            <p>Ruta mas corta: {{ almacen.distancia }} km</p>
+            <p>Ruta mas corta: {{ almacen.distancia }} metros</p>
         </div>
+        <button @click="goBack" class="go-back-btn">
+         Volver
+        </button>
     </div>
 </template>
 
 <script setup>
 import { ref, onMounted } from 'vue';
+import { useRouter } from 'vue-router';
 import almacenService from '../services/almacenService';
 import clienteService from '../services/clienteService';
 
 const almacenInfo = ref([]);
 const busquedaRealizada = ref(false);
 const userData = ref(null);
+const router = useRouter();
 
 onMounted(async () => {
     try {
         const userDataFromStorage = JSON.parse(localStorage.getItem('userData'));
+        let listaAlmacenes = []
         if (userDataFromStorage?.idCliente) {
             userData.value = userDataFromStorage;
             const almacenes = await almacenService.listAlmacenes();
-            for (let i = 0; i < almacenes.length; i++) {
-                const distancia = await clienteService.shortestRoute({ idAlmacen: almacenes[i].idAlmacen, idCliente: userDataFromStorage.idCliente})
-                almacenInfo.value.append({ 
-                    distancia,
-                    nombre: almacenes[i].nombre,
-                    direccion: almacenes[i].direccion,
-                })
-                console.log(almacenInfo.value)
+            for (let i = 0; i < almacenes.data.length; i++) {
+                const distancia = await clienteService.shortestRoute({ idAlmacen: almacenes.data[i].idAlmacen, idCliente: userDataFromStorage.idCliente})
+                listaAlmacenes = [{ 
+                    distancia: distancia.data,
+                    nombre: almacenes.data[i].nombre,
+                    direccion: almacenes.data[i].direccion,
+                }, ...listaAlmacenes]
+                console.log(listaAlmacenes)
             }
         }
+        almacenInfo.value = listaAlmacenes
         busquedaRealizada.value = true;
     } catch (error) {
         console.error('Error al obtener almacén cercano:', error);
         busquedaRealizada.value = true;
     }
 });
+const goBack = () => {
+  router.push({ name: 'UserMenu' });
+};
 </script>
 
 <style scoped>
@@ -98,5 +109,21 @@ onMounted(async () => {
     color: #e74c3c;
     text-align: center;
     font-weight: bold;
+}
+.go-back-btn {
+  width: 100%;
+  padding: 0.75rem;
+  background: #e74c3c;
+  color: black;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  cursor: pointer;
+  margin-top: 1rem;
+  transition: background-color 0.2s;
+}
+
+.go-back-btn:hover {
+  background: #c0392b;
 }
 </style>
